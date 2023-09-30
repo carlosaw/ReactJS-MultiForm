@@ -9,8 +9,12 @@ export const FormStep1 = () => {
   const { state, dispatch } = useForm();
 
   const handleNextStep = () => {
-    if(state.name !== '' && state.name.length > 3) {
-      navigate('/step2');
+    if(state.name !== '' ) {     
+      if(state.name.length > 3) {
+        navigate('/step2');
+      } else {
+        alert("Nome deve ter mais de 3 caracteres!");
+      }
     } else {
       alert("Preencha os dados!");
     }   
