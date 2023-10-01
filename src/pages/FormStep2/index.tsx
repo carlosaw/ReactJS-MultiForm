@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import * as C from './styles';
 import { useForm, FormActions } from '../../contexts/FormContext';
 import { Theme } from '../../components/Theme';
@@ -10,38 +10,37 @@ export const FormStep2 = () => {
   const { state, dispatch } = useForm();
 
   const handleNextStep = () => {
-    if(state.name !== '' ) {     
-      if(state.name.length > 3) {
-        navigate('/step3');
-      } else {
-        alert("Nome deve ter mais de 3 caracteres!");
-      }
-    } else {
-      alert("Preencha os dados!");
-    }   
+    if(state.name !== '' ) {          
+      navigate('/step3');
+    }  
   }
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: FormActions.setName,
-      payload: e.target.value
-    });
-  }
 
   // Ao carregar a pg começa step1
   useEffect(() => {
-    dispatch({
-      type: FormActions.setCurrentStep,
-      payload: 2
-    });
+    if(state.name === '') {
+      navigate('/');
+    } else {
+      dispatch({
+        type: FormActions.setCurrentStep,
+        payload: 2
+      });
+    }
   }, []);
+
+  const setLevel = (level: number) => {
+    dispatch({
+      type: FormActions.setLevel,
+      payload: level
+    });
+  }
 
   return (
     <Theme>
       <C.Container>
         <p>Passo 2/3</p>
-        <h1>Vamos começar com seu nome</h1>
-        <p>Preencha o campo abaixo com seu nome completo.</p>
+        <h1>{state.name}, o que melhor descreve você?</h1>
+        <p>Escolha a opção que melhor condiz com seu estado atual, profissionalmente.</p>
         <hr/>
 
         <SelectOption 
@@ -49,14 +48,16 @@ export const FormStep2 = () => {
           description="Comecei a programar há menos de 2 anos."
           icon="😏"
           selected={state.level === 0}
+          onClick={()=>setLevel(0)}
         />
         <SelectOption 
           title="Sou programador"
           description="Já programo há mais de 4 anos."
           icon="😎"
           selected={state.level === 1}
+          onClick={()=>setLevel(1)}
         />
-       
+        <Link to={'/'} className='backButton'>Voltar</Link>
         <button onClick={handleNextStep}>Próximo</button>
       </C.Container>
     </Theme>

@@ -50,4 +50,21 @@ export const Container = styled.div`
       opacity: .8;
     }
   }
+
+  .backButton {
+    text-decoration: none;
+    background-color: #B8B8D4;
+    color: #FFF;
+    font-size: 16px;
+    padding: 13px 25px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 30px;
+    margin-right: 30px;
+
+    &:hover {
+      opacity: .8;
+    }
+  }
 `;
